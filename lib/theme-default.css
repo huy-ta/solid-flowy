@@ -1,0 +1,28 @@
+.solid-flowy__edge-path {
+  stroke: var(--black);
+  stroke-width: 2;
+  fill: transparent;
+}
+
+.solid-flowy__arrowhead polyline {
+  stroke: var(--black);
+  fill: var(--black);
+}
+
+.solid-flowy__arrow {
+  stroke: var(--black);
+  fill: none;
+}
+
+.solid-flowy__arrowclosed--error {
+  stroke: #ef4a3c;
+  fill: #ef4a3c;
+}
+
+.solid-flowy__node {
+  cursor: grab;
+}
+
+.solid-flowy__minimap {
+  background-color: #fff;
+}

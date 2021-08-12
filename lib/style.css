@@ -1,0 +1,171 @@
+:root {
+  --selected-color: #3ab6f3;
+  --black: rgb(0, 0, 52);
+}
+
+.solid-flowy {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.solid-flowy__renderer,
+.solid-flowy__pane {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.solid-flowy__pane {
+  z-index: 1;
+}
+
+.solid-flowy__renderer {
+  z-index: 4;
+}
+
+.solid-flowy__edges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.solid-flowy__edge {
+  pointer-events: visibleStroke;
+}
+
+.solid-flowy__edge.inactive {
+  pointer-events: none;
+}
+
+@keyframes dashdraw {
+  from {
+    stroke-dashoffset: 10;
+  }
+}
+
+.solid-flowy__edge-textwrapper {
+  pointer-events: all;
+}
+
+.solid-flowy__edge-text {
+  pointer-events: none;
+  user-select: none;
+}
+
+.solid-flowy__connection {
+  pointer-events: none;
+}
+
+.solid-flowy__connection-path {
+  fill: none;
+}
+
+.solid-flowy__nodes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform-origin: 0 0;
+  z-index: 3;
+}
+
+.solid-flowy__node {
+  position: absolute;
+  user-select: none;
+  pointer-events: all;
+  transform-origin: 0 0;
+}
+
+.solid-flowy__edgeupdater {
+  cursor: move;
+  pointer-events: all;
+}
+
+.solid-flowy__handle--hidden {
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ========== Premade Components ========== */
+
+.solid-flowy__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.solid-flowy__minimap {
+  position: absolute;
+  z-index: 5;
+  bottom: 10px;
+  right: 10px;
+}
+
+.solid-flowy__standard-handles__arrow {
+  position: absolute;
+  cursor: copy;
+}
+
+.solid-flowy__standard-handles__arrow .solid-flowy__standard-handles__arrow__svg-path {
+  fill: #a0a0a0;
+  opacity: 0.5;
+}
+
+.solid-flowy__standard-handles__arrow:hover .solid-flowy__standard-handles__arrow__svg-path {
+  fill: #253134;
+  opacity: 1;
+}
+
+.solid-flowy__standard-handles__arrow--hidden {
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+
+.solid-flowy__standard-handles__arrow--up {
+  left: calc(50% - 12px);
+  top: -36px;
+}
+
+.solid-flowy__standard-handles__arrow--right {
+  top: calc(50% - 12px);
+  right: -36px;
+}
+
+.solid-flowy__standard-handles__arrow--down {
+  left: calc(50% - 12px);
+  bottom: -42px;
+}
+
+.solid-flowy__standard-handles__arrow--left {
+  top: calc(50% - 12px);
+  left: -36px;
+}
+
+.solid-flowy__node-container-with-standard-handles {
+  position: relative;
+}
+
+path.solid-flowy__edge-path--forming {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+  opacity: 0.8;
+}
+
+path.solid-flowy__edge-path--selected {
+  filter: drop-shadow(0px 0px 0.5px var(--selected-color)) drop-shadow(0px 0px 1px var(--selected-color));
+}
+
+path.solid-flowy__edge-path--invalid {
+  stroke: #ef4a3c;
+  opacity: 1;
+}

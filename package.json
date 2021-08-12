@@ -1,0 +1,34 @@
+{
+  "name": "solid-flowy",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.4.13",
+    "@types/uuid": "^8.3.1",
+    "vite": "^2.4.4",
+    "vite-plugin-solid": "^2.0.1",
+    "solid-js": "^1.0.7"
+  },
+  "dependencies": {
+    "classcat": "^5.0.3",
+    "d3-selection": "^3.0.0",
+    "d3-zoom": "^3.0.0",
+    "min-dash": "^3.7.0",
+    "path-intersection": "^2.2.1",
+    "uuid": "^8.3.2"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.0.7"
+  },
+  "files": [
+    "dist",
+    "lib"
+  ]
+}
