@@ -3,6 +3,7 @@ import cc from 'classcat';
 
 import { DragDelta, Node, SnapGrid, Transform } from '../../types';
 import { useStoreById } from '../../store/state';
+import Draggable, { DraggableData } from '../Draggable/Draggable';
 
 export interface NodeComponentProps<T = any> {
   node: Node<T>;
@@ -48,7 +49,7 @@ const wrapNode = (NodeComponent: Component<NodeComponentProps>) => {
   const NodeWrapper: Component<WrapNodeProps> = (wrapNodeProps) => {
     let observerInitialized: boolean = false;
     let nodeElement: HTMLDivElement;
-    const [state, { updateNodeDimensions }] = useStoreById(wrapNodeProps.storeId);
+    const [state, { updateNodeDimensions, updateNodePosDiff }] = useStoreById(wrapNodeProps.storeId);
     const nodeStyle = createMemo(() => ({
       zIndex: 3,
       transform: `translate(${wrapNodeProps.node.position.x}px,${wrapNodeProps.node.position.y}px)`,
@@ -91,6 +92,47 @@ const wrapNode = (NodeComponent: Component<NodeComponentProps>) => {
       if (typeof wrapNodeProps.onNodeDblClick === 'function') wrapNodeProps.onNodeDblClick(event, wrapNodeProps.node);
     };
 
+    const onDragStart = (event: MouseEvent) => {
+      wrapNodeProps.onNodeDragStart?.(event as MouseEvent, wrapNodeProps.node);
+    };
+
+    const onDrag = (event: MouseEvent, draggableData: DraggableData) => {
+      let deltaX = draggableData.deltaX;
+      let deltaY = draggableData.deltaY;
+
+      updateNodePosDiff({
+        id: wrapNodeProps.node.id,
+        diff: {
+          x: deltaX,
+          y: deltaY,
+        },
+        isDragging: true,
+      });
+
+      if (typeof wrapNodeProps.onNodeDrag === 'function') {
+        wrapNodeProps.onNodeDrag(event, wrapNodeProps.node, { deltaX, deltaY });
+      }
+    };
+
+    const onDragStop = (event: MouseEvent) => {
+      // onDragStop also gets called when user just clicks on a node.
+      // Because of that we set dragging to true inside the onDrag handler and handle the click here
+      if (!wrapNodeProps.node.isDragging) {
+        wrapNodeProps.onClick?.(event, wrapNodeProps.node);
+
+        return;
+      }
+
+      updateNodePosDiff({
+        id: wrapNodeProps.node.id,
+        isDragging: false,
+      });
+
+      if (typeof wrapNodeProps.onNodeDragStop === 'function') {
+        wrapNodeProps.onNodeDragStop(event, wrapNodeProps.node);
+      }
+    };
+
     createEffect(() => {
       // the resize observer calls an updateNodeDimensions initially.
       // We don't need to force another dimension update if it hasn't happened yet
@@ -109,27 +151,34 @@ const wrapNode = (NodeComponent: Component<NodeComponentProps>) => {
       onCleanup(() => wrapNodeProps.resizeObserver?.unobserve(currNode));
     });
 
-    const nodeClasses = cc([
-      'solid-flowy__node',
-      `solid-flowy__node-${wrapNodeProps.node.type}`,
-      wrapNodeProps.className,
-    ]);
+    const nodeClasses = createMemo(() =>
+      cc(['solid-flowy__node', `solid-flowy__node-${wrapNodeProps.node.type}`, wrapNodeProps.className])
+    );
 
     return (
       <Show when={!wrapNodeProps.node.isHidden} fallback={null}>
-        <div
-          className={nodeClasses}
-          ref={nodeElement}
-          style={nodeStyle()}
-          onMouseEnter={onMouseEnterHandler}
-          onMouseMove={onMouseMoveHandler}
-          onMouseLeave={onMouseLeaveHandler}
-          onContextMenu={onContextMenuHandler}
-          onDblClick={onNodeDblClickHandler}
-          data-id={wrapNodeProps.node.id}
+        <Draggable
+          onDragStart={onDragStart}
+          onDrag={onDrag}
+          onDragStop={onDragStop}
+          snapGrid={wrapNodeProps.snapGrid}
+          scale={wrapNodeProps.scale}
+          disabled={!wrapNodeProps.isDraggable}
         >
-          <NodeComponent node={wrapNodeProps.node} storeId={wrapNodeProps.storeId} />
-        </div>
+          <div
+            className={nodeClasses()}
+            ref={nodeElement}
+            style={nodeStyle()}
+            onMouseEnter={onMouseEnterHandler}
+            onMouseMove={onMouseMoveHandler}
+            onMouseLeave={onMouseLeaveHandler}
+            onContextMenu={onContextMenuHandler}
+            onDblClick={onNodeDblClickHandler}
+            data-id={wrapNodeProps.node.id}
+          >
+            <NodeComponent node={wrapNodeProps.node} storeId={wrapNodeProps.storeId} />
+          </div>
+        </Draggable>
       </Show>
     );
   };

@@ -98,6 +98,7 @@ export interface SolidFlowyProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>
 }
 
 const SolidFlowy: Component<SolidFlowyProps> = (props) => {
+  console.log('solidflowy props', props);
   props = mergeProps(
     {
       zoomActivationKeyCode: 'Meta',
