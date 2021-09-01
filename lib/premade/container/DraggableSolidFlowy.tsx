@@ -6,6 +6,7 @@ import { repairConnection } from '../../features/layout/manhattanLayout';
 import SolidFlowy, { SolidFlowyProps } from '../../container/SolidFlowy';
 
 const DraggableSolidFlowy: Component<SolidFlowyProps> = (props) => {
+  const [local, others] = splitProps(props, ['children', 'ref', 'onNodeDrag', 'onNodeDragStop']);
   const [state, { upsertEdge }] = useStoreById(props.storeId)!;
 
   const handleNodeDrag: SolidFlowyProps['onNodeDrag'] = (event, node, dragDelta) => {
@@ -73,12 +74,7 @@ const DraggableSolidFlowy: Component<SolidFlowyProps> = (props) => {
       ref={props.ref}
       onNodeDrag={handleNodeDrag}
       onNodeDragStop={handleNodeDragStop}
-      onLoad={props.onLoad}
-      edgeTypes={props.edgeTypes}
-      nodeTypes={props.nodeTypes}
-      snapGrid={props.snapGrid}
-      snapToGrid={props.snapToGrid}
-      storeId={props.storeId}
+      {...others}
     >
       {props.children}
     </SolidFlowy>

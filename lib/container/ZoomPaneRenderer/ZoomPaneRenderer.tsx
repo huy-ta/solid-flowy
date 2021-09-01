@@ -50,7 +50,7 @@ const ZoomPaneRenderer: Component<ZoomPaneRendererProps> = (props) => {
       storeId={props.storeId}
     >
       {props.children}
-      <div className="solid-flowy__pane" onClick={onClick} onContextMenu={onContextMenu} onWheel={onWheel} />
+      <div class="solid-flowy__pane" onClick={onClick} onContextMenu={onContextMenu} onWheel={onWheel} />
     </ZoomPane>
   );
 };

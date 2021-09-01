@@ -40,12 +40,12 @@ export const getTransformForBounds = (
   return [x, y, clampedZoom];
 };
 
-export const getReactFlowyElement = () => {
+export const getSolidFlowyElement = () => {
   return document.querySelector('.solid-flowy');
 }
 
 export const getCanvas = (canvasTransform: Transform): Canvas => {
-  const reactFlowyElement = getReactFlowyElement() as HTMLDivElement;
+  const reactFlowyElement = getSolidFlowyElement() as HTMLDivElement;
   const reactFlowyElementBoundingRect = reactFlowyElement.getBoundingClientRect();
 
   return {

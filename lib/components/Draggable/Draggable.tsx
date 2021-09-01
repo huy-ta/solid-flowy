@@ -126,7 +126,7 @@ const Draggable: Component<DraggableProps> = (props) => {
   };
 
   return (
-    <div className="draggable" ref={node} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+    <div class="draggable" ref={node} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
       {props.children}
     </div>
   );

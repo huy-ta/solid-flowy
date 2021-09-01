@@ -217,7 +217,7 @@ const ZoomPane: Component<ZoomPaneProps> = (props) => {
   });
 
   return (
-    <div className="solid-flowy__renderer solid-flowy__zoompane" ref={zoomPane}>
+    <div class="solid-flowy__renderer solid-flowy__zoompane" ref={zoomPane}>
       {props.children}
     </div>
   );

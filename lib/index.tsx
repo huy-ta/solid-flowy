@@ -2,6 +2,7 @@ import SolidFlowy from './container/SolidFlowy';
 
 export default SolidFlowy;
 
+export { default as Handle } from './components/Handle';
 export { addMarkerDefinition } from './container/EdgeRenderer/MarkerDefinitions';
 
 export * from './utils';
@@ -33,6 +34,8 @@ export { default as useUpdateNodeInternals } from './hooks/useUpdateNodeInternal
 
 export { initializeStore as initializeSolidFlowyStore } from './store/state';
 export { useStoreById as useSolidFlowyStoreById } from './store/state';
+export * from './store/getters';
+
 export * from './types';
 
 export type { SolidFlowyProps } from './container/SolidFlowy';

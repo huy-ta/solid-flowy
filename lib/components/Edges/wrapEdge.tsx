@@ -1,5 +1,4 @@
 import { createMemo, Show, Component, ComponentProps } from 'solid-js';
-import cc from 'classcat';
 
 import { Edge, EdgeProps } from '../../types';
 
@@ -21,12 +20,6 @@ export interface WrapEdgeProps<T = any> {
 
 const wrapEdge = (EdgeComponent: Component<EdgeProps>) => {
   const EdgeWrapper = (wrapEdgeProps: WrapEdgeProps) => {
-    const edgeClasses = createMemo(() => cc([
-      'solid-flowy__edge',
-      `solid-flowy__edge-${wrapEdgeProps.edge.type}`,
-      wrapEdgeProps.edge.className,
-    ]));
-
     const edgeElement = createMemo(() => {
       const el: Edge = {
         id: wrapEdgeProps.edge.id,
@@ -67,12 +60,14 @@ const wrapEdge = (EdgeComponent: Component<EdgeProps>) => {
       wrapEdgeProps.onMouseLeave?.(event, edgeElement());
     };
 
-    console.log('wrapEdgeProps.storeId', wrapEdgeProps.storeId);
-
     return (
       <Show when={!wrapEdgeProps.edge.isHidden} fallback={null}>
         <g
-          className={edgeClasses()}
+          classList={{
+            'solid-flowy__edge': true,
+            [`solid-flowy__edge-${wrapEdgeProps.edge.type}`]: true,
+            [wrapEdgeProps.edge.class]: true,
+          }}
           onClick={onEdgeClick}
           onDblClick={onEdgeDblClick}
           onContextMenu={onEdgeContextMenu}

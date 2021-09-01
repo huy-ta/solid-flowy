@@ -1,5 +1,4 @@
 import { JSX, Component, createMemo, createEffect, Show, onCleanup } from 'solid-js';
-import cc from 'classcat';
 
 import { DragDelta, Node, SnapGrid, Transform } from '../../types';
 import { useStoreById } from '../../store/state';
@@ -36,7 +35,7 @@ export interface WrapNodeProps<T = any> {
   onNodeDrag?: (event: MouseEvent, node: Node, dragDelta: DragDelta) => void;
   onNodeDragStop?: (event: MouseEvent, node: Node) => void;
   style?: JSX.CSSProperties;
-  className?: string;
+  class?: string;
   isInitialized?: boolean;
   snapToGrid?: boolean;
   snapGrid?: SnapGrid;
@@ -151,10 +150,6 @@ const wrapNode = (NodeComponent: Component<NodeComponentProps>) => {
       onCleanup(() => wrapNodeProps.resizeObserver?.unobserve(currNode));
     });
 
-    const nodeClasses = createMemo(() =>
-      cc(['solid-flowy__node', `solid-flowy__node-${wrapNodeProps.node.type}`, wrapNodeProps.className])
-    );
-
     return (
       <Show when={!wrapNodeProps.node.isHidden} fallback={null}>
         <Draggable
@@ -166,7 +161,11 @@ const wrapNode = (NodeComponent: Component<NodeComponentProps>) => {
           disabled={!wrapNodeProps.isDraggable}
         >
           <div
-            className={nodeClasses()}
+            classList={{
+              'solid-flowy__node': true,
+              [`solid-flowy__node-${wrapNodeProps.node.type}`]: true,
+              [wrapNodeProps.class]: true,
+            }}
             ref={nodeElement}
             style={nodeStyle()}
             onMouseEnter={onMouseEnterHandler}

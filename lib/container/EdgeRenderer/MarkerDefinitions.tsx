@@ -6,7 +6,7 @@ interface MarkerProps {
 
 const Marker: Component<MarkerProps> = (props) => (
   <marker
-    className="solid-flowy__arrowhead"
+    class="solid-flowy__arrowhead"
     id={props.id}
     markerWidth="12.5"
     markerHeight="12.5"
@@ -38,7 +38,7 @@ const MarkerDefinitions: Component = () => {
       id: 'solid-flowy__arrowclosed',
       element: (
         <polyline
-          className="solid-flowy__arrowclosed"
+          class="solid-flowy__arrowclosed"
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="1"
@@ -50,7 +50,7 @@ const MarkerDefinitions: Component = () => {
       id: 'solid-flowy__arrow',
       element: (
         <polyline
-          className="solid-flowy__arrow"
+          class="solid-flowy__arrow"
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="1.5"
@@ -62,7 +62,7 @@ const MarkerDefinitions: Component = () => {
       id: 'solid-flowy__arrowclosed--error',
       element: (
         <polyline
-          className="solid-flowy__arrowclosed--error"
+          class="solid-flowy__arrowclosed--error"
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="1"

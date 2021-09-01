@@ -96,6 +96,7 @@ export interface SolidFlowyActions {
   setMinZoom: (minZoom: number) => void;
   setMaxZoom: (maxZoom: number) => void;
   setTranslateExtent: (translateExtent: TranslateExtent) => void;
+  translateTo: ([x, y]: [number, number]) => void;
   zoomTo: (zoom: number) => void;
   setSnapToGrid: (snapToGrid: boolean) => void;
   setSnapGrid: (snapGrid: SnapGrid) => void;
@@ -205,6 +206,8 @@ export const initializeStore = (storeId?: string) => {
       },
 
       setSelectedElementById: (id: string) => {
+        store[1].unselectAllElements();
+
         if (state.nodes[id]) {
           setState('nodes', id, 'isSelected', true);
 
@@ -337,6 +340,10 @@ export const initializeStore = (storeId?: string) => {
         setState('translateExtent', translateExtent);
 
         state.d3Zoom?.translateExtent(translateExtent);
+      },
+
+      translateTo: ([x, y]: [number, number]) => {
+        state.d3Zoom?.translateTo(state.d3Selection!, x, y)
       },
 
       zoomTo: (zoom: number) => {

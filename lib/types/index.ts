@@ -72,7 +72,7 @@ export interface Node<T = any> {
   type: string;
   data?: T;
   style?: JSX.CSSProperties;
-  className?: string;
+  class?: string;
   isHidden?: boolean;
   isSelected?: boolean;
   isDragging?: boolean;
@@ -101,7 +101,7 @@ export interface Edge<T = any> {
   isInvalid?: boolean;
   isDragging?: boolean;
   data?: T;
-  className?: string;
+  class?: string;
 }
 
 export enum BackgroundVariant {

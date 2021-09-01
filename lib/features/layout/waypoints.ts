@@ -19,11 +19,19 @@ export function filterRedundantWaypoints(waypoints: Point[], accuracy = 2) {
         getPointDistance(point, nextPoint) === 0 ||
         arePointsOnLine(previousPoint, nextPoint, point, accuracy)) {
       if (Math.abs(previousPoint.x - nextPoint.x) <= accuracy) {
-        nextPoint.x = Math.round(nextPoint.x);
-        previousPoint.x = nextPoint.x;
+        waypoints = waypoints.map((p, i) => {
+          if (i === index - 1) return { ...p, x: nextPoint.x };
+          if (i === index + 1) return { ...p, x: Math.round(nextPoint.x) };
+
+          return p;
+        });
       } else if (Math.abs(previousPoint.y - nextPoint.y) <= accuracy) {
-        nextPoint.y = Math.round(nextPoint.y);
-        previousPoint.y = nextPoint.y;
+        waypoints = waypoints.map((p, i) => {
+          if (i === index - 1) return { ...p, y: nextPoint.y };
+          if (i === index + 1) return { ...p, y: Math.round(nextPoint.y) };
+
+          return p;
+        });
       }
 
       // remove point, if overlapping with {nextPoint}

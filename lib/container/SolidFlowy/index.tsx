@@ -1,5 +1,4 @@
 import { Component, createMemo, JSX, mergeProps, splitProps } from 'solid-js';
-import cc from 'classcat';
 
 import ElementRenderer from '../ElementRenderer';
 import { createNodeTypes } from '../NodeRenderer/utils';
@@ -98,7 +97,6 @@ export interface SolidFlowyProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>
 }
 
 const SolidFlowy: Component<SolidFlowyProps> = (props) => {
-  console.log('solidflowy props', props);
   props = mergeProps(
     {
       zoomActivationKeyCode: 'Meta',
@@ -121,7 +119,7 @@ const SolidFlowy: Component<SolidFlowyProps> = (props) => {
   const [local, others] = splitProps(props, [
     'children',
     'onLoad',
-    'className',
+    'class',
     'onClick',
     'ref',
     'zoomActivationKeyCode',
@@ -145,14 +143,13 @@ const SolidFlowy: Component<SolidFlowyProps> = (props) => {
 
   const nodeTypesParsed = createMemo(() => createNodeTypes(props.nodeTypes));
   const edgeTypesParsed = createMemo(() => createEdgeTypes(props.edgeTypes));
-  const solidFlowyClasses = createMemo(() => cc(['solid-flowy', props.className]));
 
   const handleClick = (e: MouseEvent) => {
     if (typeof props.onBackgroundClick === 'function') props.onBackgroundClick(e);
   };
 
   return (
-    <div {...others} ref={props.ref} id={`solid-flowy__${props.storeId}`} className={solidFlowyClasses()} onClick={handleClick}>
+    <div {...others} ref={props.ref} id={`solid-flowy__${props.storeId}`} classList={{ 'solid-flowy': true, [props.class]: true }} onClick={handleClick}>
       <ElementRenderer
         onLoad={props.onLoad}
         onMove={props.onMove}

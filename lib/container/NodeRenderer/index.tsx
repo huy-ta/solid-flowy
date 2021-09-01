@@ -41,7 +41,7 @@ const NodeRenderer: Component<NodeRendererProps> = (props: NodeRendererProps) =>
         });
 
         return (
-    <div className="solid-flowy__nodes" style={transformStyle()}>
+    <div class="solid-flowy__nodes" style={transformStyle()}>
       <For each={Object.values(state.nodes)}>
         {node => {
           const nodeType = node.type;

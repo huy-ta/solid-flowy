@@ -1,5 +1,4 @@
-import { Component, createMemo, mergeProps, JSX } from 'solid-js';
-import cc from 'classcat';
+import { Component, createMemo, mergeProps, JSX, splitProps } from 'solid-js';
 
 import { BackgroundVariant } from '../../../types';
 import { createGridLinesPath, createGridDotsPath } from './utils';
@@ -27,12 +26,11 @@ const Background: Component<BackgroundProps> = (props) => {
     },
     props
   );
-
+  const [local, others] = splitProps(props, ['children', 'class', 'style', 'variant', 'gap', 'size', 'color', 'storeId', 'ref'])
   const [state] = useStoreById(props.storeId);
   // when there are multiple flows on a page we need to make sure that every background gets its own pattern.
   const patternId = createMemo(() => `pattern-${Math.floor(Math.random() * 100000)}`);
 
-  const bgClasses = createMemo(() => cc(['solid-flowy__background', props.className]));
   const scaledGap = createMemo(() => props.gap * state.transform[2]);
   const xOffset = createMemo(() => state.transform[0] % scaledGap());
   const yOffset = createMemo(() => state.transform[1] % scaledGap());
@@ -47,12 +45,16 @@ const Background: Component<BackgroundProps> = (props) => {
 
   return (
     <svg
-      className={bgClasses()}
+      classList={{
+        'solid-flowy__background': true,
+        [props.class]: true,
+      }}
       style={{
         ...(props.style as JSX.CSSProperties),
         width: '100%',
         height: '100%',
       }}
+      {...others}
     >
       <pattern
         id={patternId()}

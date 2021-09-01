@@ -52,8 +52,6 @@ const EdgeWrapper: Component<EdgeWrapperProps> = (props) => {
 
   const edgeType = createMemo(() => props.edge.type || 'standardEdge');
 
-  console.log('props.edgeRendererProps.storeId', props.edgeRendererProps.storeId);
-
   return (
     <Show when={sourceTargetNodeMemo().sourceNode && sourceTargetNodeMemo().sourceNode.width} fallback={null}>
       <Dynamic
@@ -82,9 +80,9 @@ const EdgeRenderer: Component<EdgeRendererProps> = (props) => {
 
   return (
     <Show when={state.width} fallback={null}>
-      <svg width={state.width} height={state.height} className="solid-flowy__edges">
+      <svg width={state.width} height={state.height} class="solid-flowy__edges">
         <MarkerDefinitions />
-        <g className="solid-flowy__edges__transformer" transform={transformStyle()}>
+        <g class="solid-flowy__edges__transformer" transform={transformStyle()}>
           <For each={Object.values(state.edges)}>
             {(edge) => (
               <EdgeWrapper

@@ -36,8 +36,6 @@ const getEdgeSegmentsFromWaypoints = (waypoints: EdgeWaypoint[]) => {
 let eventDelta = { x: 0, y: 0 };
 
 const StandardEdgeController: Component<Omit<EdgeProps, 'markerEndId'>> = (props) => {
-  console.log('useStoreById', useStoreById);
-  console.log('props.storeId', props.storeId);
   const [state, { upsertEdge, setSelectedElementById }] = useStoreById(props.storeId);
   const segments = createMemo(() => getEdgeSegmentsFromWaypoints(props.edge.waypoints as EdgeWaypoint[]));
   let context: Context;
@@ -130,10 +128,11 @@ const StandardEdgeController: Component<Omit<EdgeProps, 'markerEndId'>> = (props
             stroke: 'white',
             'stroke-width': 15,
             cursor: segment.sourceX === segment.targetX ? 'ew-resize' : 'ns-resize',
+            'z-index': 999,
           }}
           points={`${segment.sourceX} ${segment.sourceY}, ${segment.targetX} ${segment.targetY}`}
           onMouseDown={handleDragStart}
-          onClick={handleSelect}
+          onMouseUp={handleSelect}
         />
       )}
     </For>

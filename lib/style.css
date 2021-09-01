@@ -1,5 +1,4 @@
 :root {
-  --selected-color: #3ab6f3;
   --black: rgb(0, 0, 52);
 }
 
@@ -162,7 +161,7 @@ path.solid-flowy__edge-path--forming {
 }
 
 path.solid-flowy__edge-path--selected {
-  filter: drop-shadow(0px 0px 0.5px var(--selected-color)) drop-shadow(0px 0px 1px var(--selected-color));
+  filter: drop-shadow(0px 0px 0.5px #3ab6f3) drop-shadow(0px 0px 1px #3ab6f3);
 }
 
 path.solid-flowy__edge-path--invalid {
