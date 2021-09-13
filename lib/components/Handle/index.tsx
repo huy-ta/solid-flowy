@@ -78,14 +78,17 @@ const Handle: Component<HandleProps> = (props) => {
       const nodeValidator = state.nodeValidators[props.node.type || 'standardNode'];
 
       if (typeof nodeValidator === 'function') {
+        console.log('previousTargetNode', previousTargetNode);
+        console.log('targetNode', targetNode);
         if (!previousTargetNode || (previousTargetNode.id !== targetNode.id)) {
           const { isValid } = (nodeValidator as NodeValidator)(props.node, targetNode, newEdge as Edge);
-
+          console.log('isValid', isValid);
           previousValid = isValid;
 
           if (!isValid) newEdge.isInvalid = true;
           else delete newEdge.isInvalid;
         } else {
+          console.log('previousValid', previousValid);
           if (!previousValid) newEdge.isInvalid = true;
           else delete newEdge.isInvalid;
         }
