@@ -105,6 +105,8 @@ const Handle: Component<HandleProps> = (props) => {
 
     previousTargetNode = targetNode;
 
+    console.log('newEdge', JSON.parse(JSON.stringify(newEdge)));
+
     upsertEdge(newEdge as Edge);
   };
 
