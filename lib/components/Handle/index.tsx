@@ -114,7 +114,7 @@ const Handle: Component<HandleProps> = (props) => {
     document.body.style.overscrollBehavior = 'unset';
 
     const formingEdgeId = getFormingEdgeId();
-
+    console.log(`state.edges[${formingEdgeId}]`, state.edges[formingEdgeId]);
     if (state.edges[formingEdgeId]) {
       if (state.edges[formingEdgeId].target !== '?' && !state.edges[formingEdgeId].isInvalid) {
         const newEdge = { ...state.edges[formingEdgeId], id: `e${props.node.id}-${state.edges[formingEdgeId].target}` };
