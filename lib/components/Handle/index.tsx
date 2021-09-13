@@ -86,11 +86,11 @@ const Handle: Component<HandleProps> = (props) => {
           previousValid = isValid;
 
           if (!isValid) newEdge.isInvalid = true;
-          else delete newEdge.isInvalid;
+          else newEdge.isInvalid = false;
         } else {
           console.log('previousValid', previousValid);
           if (!previousValid) newEdge.isInvalid = true;
-          else delete newEdge.isInvalid;
+          else newEdge.isInvalid = false;
         }
       }
     } else {
@@ -114,7 +114,7 @@ const Handle: Component<HandleProps> = (props) => {
     document.body.style.overscrollBehavior = 'unset';
 
     const formingEdgeId = getFormingEdgeId();
-    console.log(`state.edges[${formingEdgeId}]`, state.edges[formingEdgeId]);
+    console.log(`state.edges[${formingEdgeId}]`, { ...state.edges[formingEdgeId] });
     if (state.edges[formingEdgeId]) {
       if (state.edges[formingEdgeId].target !== '?' && !state.edges[formingEdgeId].isInvalid) {
         const newEdge = { ...state.edges[formingEdgeId], id: `e${props.node.id}-${state.edges[formingEdgeId].target}` };
