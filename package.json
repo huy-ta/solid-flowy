@@ -1,6 +1,6 @@
 {
   "name": "solid-flowy",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "",
   "scripts": {
     "start": "vite",
@@ -12,9 +12,9 @@
   "devDependencies": {
     "@types/node": "^16.4.13",
     "@types/uuid": "^8.3.1",
+    "solid-js": "^1.0.7",
     "vite": "^2.4.4",
-    "vite-plugin-solid": "^2.0.1",
-    "solid-js": "^1.0.7"
+    "vite-plugin-solid": "^2.0.1"
   },
   "dependencies": {
     "d3-selection": "^3.0.0",

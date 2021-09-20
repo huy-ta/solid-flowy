@@ -150,6 +150,22 @@ export const initializeStore = (storeId?: string) => {
     state,
     {
       setElements: (propElements: Elements) => {
+        [...Object.values(state.nodes), ...Object.values(state.edges)].forEach((element) => {
+          const foundPropElement = propElements.find(({ id }) => id === element.id);
+
+          if (foundPropElement) return;
+
+          setState(
+            produce<SolidFlowyState>((s) => {
+              if (isNode(element)) {
+                delete s.nodes[element.id];
+              } else if (isEdge(element)) {
+                delete s.edges[element.id];
+              }
+            })
+          );
+        });
+
         propElements.forEach((propElement) => {
           if (isNode(propElement)) {
             if (!state.nodes[propElement.id]) {
@@ -226,6 +242,12 @@ export const initializeStore = (storeId?: string) => {
           produce<SolidFlowyState>((s) => {
             if (s.nodes[id]) {
               delete s.nodes[id];
+
+              for (const edgeId in s.edges) {
+                if (s.edges[edgeId].source !== id && s.edges[edgeId].target !== id) return;
+
+                delete s.edges[edgeId];
+              }
 
               return;
             }
@@ -343,7 +365,7 @@ export const initializeStore = (storeId?: string) => {
       },
 
       translateTo: ([x, y]: [number, number]) => {
-        state.d3Zoom?.translateTo(state.d3Selection!, x, y)
+        state.d3Zoom?.translateTo(state.d3Selection!, x, y);
       },
 
       zoomTo: (zoom: number) => {

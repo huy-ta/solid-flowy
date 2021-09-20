@@ -80,6 +80,7 @@ const Handle: Component<HandleProps> = (props) => {
       if (typeof nodeValidator === 'function') {
         if (!previousTargetNode || (previousTargetNode.id !== targetNode.id)) {
           const { isValid } = (nodeValidator as NodeValidator)(props.node, targetNode, newEdge as Edge);
+
           previousValid = isValid;
 
           if (!isValid) newEdge.isInvalid = true;
