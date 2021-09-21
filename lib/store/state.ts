@@ -150,53 +150,42 @@ export const initializeStore = (storeId?: string) => {
     state,
     {
       setElements: (propElements: Elements) => {
-        [...Object.values(state.nodes), ...Object.values(state.edges)].forEach((element) => {
-          const foundPropElement = propElements.find(({ id }) => id === element.id);
+        setState(produce<SolidFlowyState>(s => {
+          s.nodes = {};
+          s.edges = {};
 
-          if (foundPropElement) return;
+          propElements.forEach((propElement) => {
+            if (isNode(propElement)) {
+              if (!state.nodes[propElement.id]) {
+                s.nodes[propElement.id] = parseNode(propElement, state.nodeExtent);
 
-          setState(
-            produce<SolidFlowyState>((s) => {
-              if (isNode(element)) {
-                delete s.nodes[element.id];
-              } else if (isEdge(element)) {
-                delete s.edges[element.id];
+                return;
               }
-            })
-          );
-        });
 
-        propElements.forEach((propElement) => {
-          if (isNode(propElement)) {
-            if (!state.nodes[propElement.id]) {
-              setState('nodes', propElement.id, parseNode(propElement, state.nodeExtent));
+              const updatedNode = { ...propElement };
 
-              return;
-            }
+              if (typeof propElement.type !== 'undefined' && propElement.type !== state.nodes[propElement.id].type) {
+                // we reset the elements dimensions here in order to force a re-calculation of the bounds.
+                // When the type of a node changes it is possible that the number or positions of handles changes too.
+                delete updatedNode.width;
+              }
 
-            const updatedNode = { ...propElement };
-
-            if (typeof propElement.type !== 'undefined' && propElement.type !== state.nodes[propElement.id].type) {
-              // we reset the elements dimensions here in order to force a re-calculation of the bounds.
-              // When the type of a node changes it is possible that the number or positions of handles changes too.
-              delete updatedNode.width;
-            }
-
-            setState('nodes', propElement.id, updatedNode);
-
-            return;
-          }
-
-          if (isEdge(propElement)) {
-            if (!state.edges[propElement.id]) {
-              setState('edges', propElement.id, parseEdge(propElement));
+              s.nodes[propElement.id] = updatedNode;
 
               return;
             }
 
-            setState('nodes', propElement.id, { ...propElement });
-          }
-        });
+            if (isEdge(propElement)) {
+              if (!state.edges[propElement.id]) {
+                s.edges[propElement.id] = parseEdge(propElement);
+  
+                return;
+              }
+  
+              s.edges[propElement.id] = { ...propElement };
+            }
+          })
+        }));
       },
 
       upsertNode: (node: Node) => {
@@ -244,7 +233,7 @@ export const initializeStore = (storeId?: string) => {
               delete s.nodes[id];
 
               for (const edgeId in s.edges) {
-                if (s.edges[edgeId].source !== id && s.edges[edgeId].target !== id) return;
+                if (s.edges[edgeId].source !== id && s.edges[edgeId].target !== id) continue;
 
                 delete s.edges[edgeId];
               }
