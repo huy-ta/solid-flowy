@@ -8,7 +8,7 @@ export default defineConfig({
     target: 'esnext',
     polyfillDynamicImport: false,
     lib: {
-      entry: path.resolve(__dirname, 'lib/index.ts'),
+      entry: path.resolve(__dirname, 'lib/index.tsx'),
       name: 'SolidFlowy',
       fileName: (format) => `solid-flowy.${format}.js`,
     },
