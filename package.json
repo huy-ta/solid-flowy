@@ -1,6 +1,6 @@
 {
   "name": "solid-flowy",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "",
   "main": "./dist/solid-flowy.umd.js",
   "module": "./dist/solid-flowy.es.js",
