@@ -4,12 +4,18 @@ import { createEffect, createRoot } from 'solid-js';
 import { useStoreById } from '../../../store/state';
 import { Node, Edge, Elements } from '../../../types';
 
+let ignoreNextChangeByStoreId: Record<string, boolean> = {};
+
 const normalizeUnstablePropertiesFromElements = (elements: Node[] | Edge[] | Elements) => {
   const elementsWithUnstablePropertiesExcluded = (elements as Node[])
     .map(({ width, height, ...node }) => node)
     .filter((node) => !node.isDragging);
 
   return (elementsWithUnstablePropertiesExcluded as unknown as Edge[]).filter((edge) => !edge.isDragging);
+};
+
+export const ignoreNextChange = (storeId: string) => {
+  ignoreNextChangeByStoreId[storeId] = true;
 };
 
 export type ElementChangeListener = (elements: Elements) => void;
@@ -53,6 +59,12 @@ const activateStoreSubscription = (storeId: string) => {
       if (isDeepEqual(previousElementsToCompare, elementsToCompare)) return;
 
       previousElements = elements;
+
+      if (ignoreNextChangeByStoreId[storeId]) {
+        delete ignoreNextChangeByStoreId[storeId];
+
+        return;
+      }
 
       listeners.forEach((listener) => listener(elements));
     });
