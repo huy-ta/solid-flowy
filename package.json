@@ -1,19 +1,9 @@
 {
   "name": "solid-flowy",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "",
   "main": "./dist/solid-flowy.umd.js",
   "module": "./dist/solid-flowy.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/solid-flowy.es.js",
-      "require": "./dist/solid-flowy.umd.js"
-    },
-    "./lib": {
-      "import": "./lib/index.tsx",
-      "require": "./lib/index.tsx"
-    }
-  },
   "scripts": {
     "start": "vite",
     "dev": "vite",
